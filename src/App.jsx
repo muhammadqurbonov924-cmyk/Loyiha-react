@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-//Layout
+
+// Layouts
 import PublicLayout from "./Layouts/PublicLayout";
-import AdminZLayout from "./Layouts/AdminLayout";
 import AdminLayout from "./Layouts/AdminLayout";
-// impor pages
+import AuthLayout from "./Layouts/AuthLayout";
+
+// Pages
 import HomePage from "./pages/landing/HomePage";
 import PostsPage from "./pages/landing/PostsPage";
 import DetailPostPage from "./pages/landing/DetailPostPage";
@@ -11,7 +13,57 @@ import LoginPage from "./pages/auth/LoginPage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import CreatePost from "./pages/admin/CreatePost";
 
-export default function App() {
-  return <div className="text-red-600">App</div>;
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PublicLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "posts",
+        element: <PostsPage />,
+      },
+      {
+        path: "detail",
+        element: <DetailPostPage />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+      {
+        path: "create-post",
+        element: <CreatePost />,
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
-<a href=""></a>;
+
+export default App;
